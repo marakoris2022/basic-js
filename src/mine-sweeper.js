@@ -23,10 +23,63 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+
+// matrix = [
+//    [true, false, false],
+//    [false, true, false],
+//    [false, false, false]
+//   ]
+
+function minesweeper(matrixData) {
+  const matrix = matrixData;
+  const arrClone = [];
+  
+  for (let i = 0; i < matrix.length; i++) {
+    for (let ii = 0; ii < matrix[0].length; ii++) {
+      matrix[i][ii] ? matrix[i][ii] = 1 : matrix[i][ii] = 0
+    }
+  }
+  
+  matrix.forEach( (el, i) => {
+    arrClone[i] = [];
+    el.forEach(elEc => {
+      arrClone[i].push(0);
+    })
+  })
+  
+  for (let i = 0; i < matrix.length; i++) {
+    for (let ii = 0; ii < matrix[0].length; ii++) {
+
+      for (let ich = -1; ich < 2; ich++) {
+        for (let iich = -1; iich < 2; iich++) {
+
+          if (i + ich > -1 && ii+iich > -1 && i + ich < matrix.length && ii + iich < matrix[0].length) {
+            // console.log(
+            //   `check - matrix[${i + ich}][${ii + iich}] - 
+            //   arrClone[${i}][${ii}] 
+            //   - value: ${matrix[i+ich][ii+iich]}
+            //   - Up - ${matrix[i + ich][ii + iich] != 0 ? 'yes' : 'no'}
+            //   `);
+            if (matrix[i + ich][ii + iich] != 0) {
+              if (ich == 0 && iich == 0) {
+                // console.log('skip');
+              } else {
+                arrClone[i][ii] += 1;
+
+              }
+            }
+          } 
+          
+        }
+      }
+
+    }
+  }
+  
+  return arrClone;
 }
+
+// console.log(minesweeper(matrix));
 
 module.exports = {
   minesweeper
